@@ -12,7 +12,7 @@ function renderMainView() {
             </div>
             <div id="map" class="map"></div>`;
 
-    const socket = io("http://localhost:1337");
+    const socket = io("http://172.25.53.25:1337");
 
     const map = L.map('map').setView([62.173276, 14.942265], 5);
 
@@ -37,7 +37,7 @@ function renderMainView() {
 
     let delayed = document.getElementById("delayed-trains");
 
-    fetch("http://localhost:1337/delayed")
+    fetch("http://172.25.53.25:1337/delayed")
         .then((response) => response.json())
         .then(function(result) {
             return renderDelayedTable(result.data, delayed);
@@ -129,7 +129,7 @@ function renderTicketView(item) {
             traindate: item.EstimatedTimeAtLocation.substring(0, 10),
         };
 
-        fetch("http://localhost:1337/tickets", {
+        fetch("http://172.25.53.25:1337/tickets", {
             body: JSON.stringify(newTicket),
             headers: {
               'content-type': 'application/json'
@@ -142,7 +142,7 @@ function renderTicketView(item) {
             });
     });
 
-    fetch("http://localhost:1337/tickets")
+    fetch("http://172.25.53.25:1337/tickets")
         .then((response) => response.json())
         .then((result) => {
             var lastId = result.data[1] ? result.data[1].id : 0;
@@ -164,7 +164,7 @@ function renderTicketView(item) {
 
 
 
-    fetch("http://localhost:1337/codes")
+    fetch("http://172.25.53.25:1337/codes")
         .then((response) => response.json())
         .then((result) => {
             result.data.forEach((code) => {
