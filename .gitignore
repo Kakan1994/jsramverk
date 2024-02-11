@@ -2,4 +2,3 @@ node_modules/
 .env
 *.sqlite
 backend/db
-frontend-react/
