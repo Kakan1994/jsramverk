@@ -1,9 +1,10 @@
+// backend/database.js
 const mongo = require('mongodb').MongoClient;
 
 let mongoServer;
 
 const database = {
-    getDb: async (collectionName) => {
+    openDb: async (collectionName) => {
         let dsn = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}cluster0.kxzfa89.mongodb.net/?retryWrites=true&w=majority`;
 
         if (process.env.NODE_ENV === 'test') {

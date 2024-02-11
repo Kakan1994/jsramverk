@@ -1,4 +1,4 @@
-const database = require('../db/database.js');
+const database = require('../database.js');
 
 const trains = {
     fetchAllDelayedTrains: async function fetchAllDelayedTrains() {

@@ -1,38 +1,48 @@
-const database = require('../db/database.js');
+// backend/models/tickets.js
+const database = require('../database.js');
 
 const tickets = {
     getTickets: async function getTickets(req, res){
-        var db = await database.openDb();
+        const { collection, client } = await database.openDb('tickets');
 
-        var allTickets = await db.all(`SELECT *, ROWID as id FROM tickets ORDER BY ROWID DESC`);
+        try {
+            const allTickets = await collection.find({}).toArray();
 
-        await db.close();
-
-        return res.json({
-            data: allTickets
-        });
+            res.json({
+                data: allTickets
+            });
+        } catch (error) {
+            console.error('Failed to fetch tickets:', error);
+            res.status(500).send(error);
+        } finally {
+            await client.close();
+        }
     },
 
     createTicket: async function createTicket(req, res){
-        var db = await database.openDb();
+        const { collection, client } = await database.openDb('tickets');
 
-        const result = await db.run(
-            'INSERT INTO tickets (code, trainnumber, traindate) VALUES (?, ?, ?)',
-            req.body.code,
-            req.body.trainnumber,
-            req.body.traindate,
-        );
-
-        await db.close();
-
-        return res.json({
-            data: {
-                id: result.lastID,
+        try {
+            const result = await collection.insertOne({
                 code: req.body.code,
-                trainnumber: req.body.trainnumber,
-                traindate: req.body.traindate,
-            }
-        });
+                trainNumber: req.body.trainNumber,
+                trainDate: req.body.trainDate
+            });
+
+            res.json({
+                data: {
+                    id: result.insertedId,
+                    code: req.body.code,
+                    trainNumber: req.body.trainNumber,
+                    trainDate: req.body.trainDate
+                }
+            });
+        } catch (error) {
+            console.error('Failed to create ticket:', error);
+            res.status(500).send(error);
+        } finally {
+            await client.close();
+        }
     }
 };
 
