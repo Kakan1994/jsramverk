@@ -5,7 +5,7 @@ services:
     environment:
       - MONGO_DATA_DIR=/data/db
     volumes:
-      - ./backend/db2:/data/db
+      - ./backend/db:/data/db
     ports:
       - "27017:27017"
     restart: 
@@ -18,8 +18,9 @@ services:
   #     dockerfile: ./backend/Dockerfile
   #   volumes:
   #     - ./backend:/backend
+  #     - /backend/node_modules
   #   ports:
   #     - "1337:1337"
   #   restart: 
   #     "always"
-  #   command: npm run test
+  #   command: npm run dev

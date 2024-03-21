@@ -3,6 +3,8 @@ DV1677 JavaScript-baserade webbramverk.
 
 ## Installera och kör igång
 
+
+
 ## Säkerhetsgranskning och Åtgärder
 Under granskning av koden kom vi fram till att det fanns ett antal säkerhetsbrister. Dessa är listade nedan tillsammans med åtgärder som vidtagits för att åtgärda dem.
 
