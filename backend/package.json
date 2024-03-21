@@ -4,9 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js",
-    "start": "NODE_ENV=production node app.js"
+    "dev": "nodemon server.js",
+    "start": "NODE_ENV=production node server.js",
+    "test": "NODE_ENV=test jest --verbose --coverage --watchAll --detectOpenHandles",
+    "test:actions": "NODE_ENV=test jest",
+    "lint": "eslint . --ext .js --ignore-pattern node_modules/"
   },
   "keywords": [],
   "author": "",
@@ -17,11 +19,35 @@
     "dotenv": "^16.0.3",
     "eventsource": "^2.0.2",
     "express": "^4.14.0",
-    "mongoose": "^8.1.1",
+    "mongodb": "^6.1.0",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",
     "socket.io": "^4.6.1",
     "sqlite": "^4.2.1",
     "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^27.4.0",
+    "jest": "^29.7.0",
+    "mongodb-memory-server": "^8.15.1",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "<rootDir>/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/coverage/**"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/db/diagnostic.data/"
+    ],
+    "watchPathIgnorePatterns": [
+      "/db/diagnostic.data/"
+    ]
   }
 }

@@ -1,16 +1,16 @@
-const database = require('../database.js');
+const database = require('../database');
 
 const trains = {
-    fetchAllDelayedTrains: async function fetchAllDelayedTrains() {
+    // eslint-disable-next-line
+    fetchAllDelayedTrains: async () => {
         let db;
 
         try {
-            db = await database.openDb(version);
-
-        } catch(error) {
+            db = await database.getDB('utils');
+        } catch (error) {
             return {
                 status: error.status,
-                message: error.message,
+                message: error.message
             };
         } finally {
             await db.close();

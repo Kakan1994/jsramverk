@@ -1,18 +1,15 @@
 // backend/app.js
-require('dotenv').config()
+require('dotenv').config();
 
-const express = require('express')
-const cors = require('cors')
-const morgan = require('morgan')
-const bodyParser = require('body-parser')
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
-const fetchTrainPositions = require('./models/trains.js')
-const delayed = require('./routes/delayed.js');
-const tickets = require('./routes/tickets.js');
-const codes = require('./routes/codes.js');
+const delayed = require('./routes/delayed');
+const tickets = require('./routes/tickets');
+const codes = require('./routes/codes');
 
-const app = express()
-const httpServer = require("http").createServer(app);
+const app = express();
 
 app.use(cors());
 app.options('*', cors());
@@ -22,27 +19,31 @@ app.disable('x-powered-by');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-const io = require("socket.io")(httpServer, {
-  cors: {
-    origin: "http://172.25.53.25:9000",
-    methods: ["GET", "POST"]
-  }
+app.get('/', (req, res) => {
+    res.json({
+        data: 'Train Controller API'
+    });
 });
 
-const port = 1337
+app.use('/delayed', delayed);
+app.use('/tickets', tickets);
+app.use('/codes', codes);
 
-app.get('/', (req, res) => {
-  res.json({
-      data: 'Hello World!'
-  })
-})
+app.use((req, res, next) => {
+    const error = new Error(`Not found - ${req.originalUrl}`);
+    error.status = 404;
+    next(error);
+});
 
-app.use("/delayed", delayed);
-app.use("/tickets", tickets);
-app.use("/codes", codes);
+// eslint-disable-next-line
+app.use((error, req, res, next) => {
+    const statusCode = error.status || 500;
+    res.status(statusCode);
+    res.json({
+        status: statusCode,
+        message: error.message,
+        stack: process.env.NODE_ENV === 'production' ? '🥞' : error.stack
+    });
+});
 
-httpServer.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
-fetchTrainPositions(io);
+module.exports = app;

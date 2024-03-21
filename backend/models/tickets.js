@@ -1,47 +1,48 @@
 // backend/models/tickets.js
-const database = require('../database.js');
+const database = require('../database');
+
+const collectionName = 'tickets';
 
 const tickets = {
-    getTickets: async function getTickets(req, res){
-        const { collection, client } = await database.openDb('tickets');
-
+    // eslint-disable-next-line
+    getTickets: async (req, res, next) => {
         try {
-            const allTickets = await collection.find({}).toArray();
+            const db = await database.openDb(collectionName);
+            const allTickets = await db.collection.find({}).toArray();
 
-            res.json({
+            await db.client.close();
+
+            return res.json({
                 data: allTickets
             });
         } catch (error) {
-            console.error('Failed to fetch tickets:', error);
-            res.status(500).send(error);
-        } finally {
-            await client.close();
+            next(error);
         }
     },
 
-    createTicket: async function createTicket(req, res){
-        const { collection, client } = await database.openDb('tickets');
-
+    // eslint-disable-next-line
+    createTicket: async (req, res, next) => {
         try {
-            const result = await collection.insertOne({
+            const db = await database.openDb(collectionName);
+
+            const result = await db.collection.insertOne({
                 code: req.body.code,
                 trainNumber: req.body.trainNumber,
                 trainDate: req.body.trainDate
             });
 
-            res.json({
+            await db.client.close();
+
+            return res.json({
                 data: {
-                    id: result.insertedId,
+                    _id: result.insertedId,
                     code: req.body.code,
                     trainNumber: req.body.trainNumber,
                     trainDate: req.body.trainDate
                 }
             });
         } catch (error) {
-            console.error('Failed to create ticket:', error);
-            res.status(500).send(error);
-        } finally {
-            await client.close();
+            next(error);
         }
     }
 };
