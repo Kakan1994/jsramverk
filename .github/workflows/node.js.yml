@@ -36,10 +36,10 @@ jobs:
       run: (cd ./backend && exec npm run test:actions)
 
     - name: Install frontend dependencies
-      run: (cd ./frontend && exec npm install)
+      run: (cd ./frontend-react && exec npm install)
       
     - name: Run frontend tests
-      run: (cd ./frontend && CI=true exec npm run test:actions)
+      run: (cd ./frontend-react && CI=true exec npm run test:actions)
       env:
         REACT_APP_API_URL_DEV: ${{ secrets.REACT_APP_API_URL_DEV }}
         REACT_APP_API_URL_PROD: ${{ secrets.REACT_APP_API_URL_PROD }}
