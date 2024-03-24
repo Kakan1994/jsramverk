@@ -35,7 +35,7 @@ describe('/tickets', () => {
     });
 
     it('GET should return 500 on failure', async () => {
-        database.getDb = jest.fn(() => {
+        database.openDb = jest.fn(() => {
             throw new Error('Failed to fetch');
         });
 
@@ -50,7 +50,7 @@ describe('/tickets', () => {
             traindate: '2024-03-18'
         };
 
-        database.getDb = jest.fn(() => {
+        database.openDb = jest.fn(() => {
             throw new Error('Failed to fetch');
         });
 
