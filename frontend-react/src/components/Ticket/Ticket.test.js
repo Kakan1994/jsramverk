@@ -1,3 +1,4 @@
+// frontend-react/src/components/Ticket/Ticket.test.js
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import * as React from 'react';
 import Ticket from './Ticket';

@@ -2,8 +2,17 @@
 DV1677 JavaScript-baserade webbramverk.
 
 ## Installera och kör igång
+Att få igång appen krävde i princip fyra saker: installera alla paket, fixa en .env-fil med en api-nyckel, ordna databasen genom reset-scriptet och köra igång båda apparna. 
 
+Kör igång:
 
+1. Klona repot
+2. Kör `npm install` i både `frontend-react` och `backend`
+3. Kör `cp .env.example .env` i både `frontend-react` och `backend`
+4. Ändra api-nyckel i `backend/.env`
+5. Sätt mongodb atlas user och pw i `backend/.env`
+6. Ändra deploy-url för frontend i `frontend-react/.env`
+7. `docker-compose up --build` eller starta med `npm start` i respektive katalog.
 
 ## Säkerhetsgranskning och Åtgärder
 Under granskning av koden kom vi fram till att det fanns ett antal säkerhetsbrister. Dessa är listade nedan tillsammans med åtgärder som vidtagits för att åtgärda dem.
