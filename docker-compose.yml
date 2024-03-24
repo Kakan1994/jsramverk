@@ -12,14 +12,14 @@ services:
       "always"
     command: mongod --bind_ip_all
 
-  # backend:
-  #   build:
-  #     context: .
-  #     dockerfile: ./backend/Dockerfile
-  #   volumes:
-  #     - ./backend:/backend
-  #   ports:
-  #     - "1337:1337"
-  #   restart: 
-  #     "always"
-  #   command: npm run test
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "1337:1337"
+    restart: 
+      "always"
+    command: npm run dev
